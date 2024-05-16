@@ -36,7 +36,7 @@ func InitMux(scrapeServer *scrapeServer) (*http.ServeMux, error) {
 	mux.HandleFunc("GET /extract/headless", h)
 	mux.HandleFunc("POST /extract/headless", h)
 	mux.HandleFunc("POST /batch", scrapeServer.batchHandler())
-	mux.HandleFunc("DELETE /{$}", scrapeServer.deleteHandler())
+	mux.HandleFunc("DELETE /extract", scrapeServer.deleteHandler())
 	h = scrapeServer.feedHandler()
 	mux.HandleFunc("GET /feed", h)
 	mux.HandleFunc("POST /feed", h)
@@ -120,7 +120,7 @@ var home embed.FS
 func (h scrapeServer) mustHomeTemplate() *template.Template {
 	tmpl := template.New("home")
 	var keyF = func() string { return "" }
-	if (h.SigningKey != nil) && (len(h.SigningKey) > 0) {
+	if len(h.SigningKey) > 0 {
 		keyF = func() string {
 			c, err := auth.NewClaims(
 				auth.WithSubject("home"),
