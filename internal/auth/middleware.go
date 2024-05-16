@@ -36,7 +36,7 @@ func JWTAuthMiddleware(
 			if err != nil {
 				http.Error(
 					w,
-					fmt.Sprintf("Invalid Token %q: %v", token, err),
+					fmt.Sprintf("Invalid Token - %v", err),
 					http.StatusUnauthorized,
 				)
 				return
