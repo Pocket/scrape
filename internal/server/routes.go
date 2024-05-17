@@ -141,7 +141,6 @@ func (h scrapeServer) mustHomeTemplate() *template.Template {
 	tmpl = tmpl.Funcs(template.FuncMap{"AuthToken": keyF})
 	homeSource, _ := home.ReadFile("pages/index.html")
 	tmpl = template.Must(tmpl.Parse(string(homeSource)))
-	tmpl.Option("missingkey=zero")
 	return tmpl
 }
 
