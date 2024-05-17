@@ -172,7 +172,7 @@ Flags:
 ## Usage as a Server
 The server provides a REST API to get resource data one-at-a-time or in bulk. The root URL serves up a page that can be used to spot check results for any url.
 
-`scrape-server` is robust but does not support any authentication or rate limiting at this time. Keep that in mind when deploying.
+Running `scrape-server` with no arguments will bring up a server on port 8080 with a SQLite database, storing scraped pages for 30 days and without any authorization controls. See below for guidance on how to change these settings.
 
 ### Installation
 ```
@@ -210,13 +210,16 @@ Command line options:
         Environment: SCRAPE_ENABLE_HEADLESS
   -log-level value
         Set the log level [debug|error|info|warn]
-        Environment: SCRAPE_LOG_LEVEL
+        Environment: SCRAPE_LOG_LEVEL (default info)
   -port value
         Port to run the server on
         Environment: SCRAPE_PORT (default 8080)
   -profile
         Enable profiling at /debug/pprof
         Environment: SCRAPE_PROFILE
+  -signing-key value
+        Base64 encoded HS256 key to verify JWT tokens. Required for JWT auth, and enables JWT auth if set.
+        Environment: SCRAPE_SIGNING_KEY
   -ttl value
         TTL for fetched resources
         Environment: SCRAPE_TTL (default 720h0m0s)
