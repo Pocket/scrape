@@ -94,6 +94,7 @@ func NewScrapeServer(
 
 type claimsKey struct{}
 
+// Prepend the authorization checker to the list of passed middleware if authorization is enabled.
 func (ss scrapeServer) withAuthIfEnabled(ms ...middleware) []middleware {
 	if len(ss.SigningKey) > 0 {
 		ms = append([]middleware{auth.JWTAuthMiddleware(ss.SigningKey, claimsKey{})}, ms...)

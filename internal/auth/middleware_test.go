@@ -83,12 +83,13 @@ func TestJWTAuthMiddleWare(t *testing.T) {
 		req.Header.Set("Authorization", tt.authHeader)
 		m := JWTAuthMiddleware(tt.key, contextKey{}, tt.extra...)
 
-		m(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		m(func(w http.ResponseWriter, r *http.Request) {
 			claims, ok := r.Context().Value(contextKey{}).(*Claims)
 			if !ok {
 				t.Fatalf("[%s] JWTAuthMiddleware, expected claims, got %v", tt.name, claims)
 			}
-		}))(recorder, req)
+		})(recorder, req)
+
 		response := recorder.Result()
 		if response.StatusCode != tt.expectStatus {
 			body, _ := io.ReadAll(response.Body)
