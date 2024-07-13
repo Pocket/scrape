@@ -32,6 +32,7 @@
 			padding-block: 0.2rem;
 			padding-inline: 0.4rem;
 			box-sizing: border-box;
+			user-select: text;
 		}
 		pre {
 			white-space: pre-wrap;
@@ -39,13 +40,13 @@
 		}
 		label {
 			display: block;
-			font: 1rem 'Verdana'
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 1.0rem;
 		}
 		input,
 		label {
   			margin: 0.2rem 0;
 		}
-		
 	</style>
 </head>
 <body>
@@ -53,13 +54,13 @@
 <div class="controls-container">
 <form x-data="formHandler" @submit.prevent="handleSubmit">
 <label for="url">Enter a URL:</label>
-<input type="submit" value="Hit It">
-<input type="url" name="url" id="url" value="https://" size="96" maxlength="200" pattern="https?://.*" required title="URL">
 <select title="URL Type" x-model="formAction">
 	<option value="/extract">Page</option>
 	<option value="/extract/headless">Headless</option>
 	<option value="/feed">Feed</option>
 </select>
+<input type="url" name="url" id="url" value="https://" size="96" maxlength="200" pattern="https?://.*" required title="URL">
+<input type="submit" value="Hit It">
 <!-- <label for="token">Token:</label> -->
 <input type="hidden" name="token" size="101" maxlength="255" value="{{AuthToken}}" placeholder="Enter your access token">
 <input type="hidden" name="pp" value="1">
