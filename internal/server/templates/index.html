@@ -11,28 +11,8 @@
 			padding: 0;
 			height: 100vh;
 		}
-		.page-container {
-			display: flex;
-			flex-direction: column;
-			gap: 0.6rem;
+		div {
 			box-sizing: border-box;
-			height: 100%;
-			padding: 0.6rem;
-		}
-		.controls-container {
-			background-color: #fff;
-			box-sizing: border-box;
-		}
-		.response-container {
-			width: 100%;
-			min-width: 768px;
-			flex: 1;
-			overflow: auto;
-			border: 0.1rem inset #ccc;
-			padding-block: 0.2rem;
-			padding-inline: 0.4rem;
-			box-sizing: border-box;
-			user-select: text;
 		}
 		pre {
 			white-space: pre-wrap;
@@ -47,25 +27,100 @@
 		label {
   			margin: 0.2rem 0;
 		}
+		.page-container {
+			display: flex;
+			flex-direction: column;
+			gap: 0.6rem;
+			height: 100%;
+			padding: 0.6rem;
+		}
+		.controls-container {
+			background-color: #fff;
+		}
+		.token-container {
+			display: flex;
+			flex-direction: column;
+			gap: 0.6rem;
+		}
+		/* .token-header {
+            background-color: #f0f0f0; */
+            /* padding: 20px;
+        } */
+		.token-controls {
+			display: flex;
+			justify-content: space-between;
+			/* background-color: #3d997d; */
+		}
+		.token-entry {
+			flex-grow: 1;
+			min-width: 400px;
+			margin-right: 0.6rem;
+			/* border: 1px solid #000; */
+			color: #b9e29c;
+		}
+		.token-textarea {
+			/* border: 0.1rem inset #ccc; */
+			box-sizing: border-box;
+			resize: vertical;
+			width: 100%;
+		}
+		.token-info {
+			white-space: nowrap;
+			display: flex;
+			align-items: flex-start;
+			justify-content: flex-start;
+		}
+		.token-info label {
+			display: block;
+			margin-inline: 0.2rem;
+			margin-block: 0;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 0.8rem;
+		}
+		.token-info input[type="checkbox"] {
+			vertical-align: middle;
+		}
+		.response-container {
+			width: 100%;
+			min-width: 768px;
+			flex: 1;
+			overflow: auto;
+			border: 0.1rem inset #ccc;
+			padding-block: 0.2rem;
+			padding-inline: 0.4rem;
+			user-select: text;
+		}
 	</style>
 </head>
 <body>
 <div class="page-container">
 <div class="controls-container">
-<form x-data="formHandler" @submit.prevent="handleSubmit">
-<label for="url">Enter a URL:</label>
-<select title="URL Type" x-model="formAction">
-	<option value="/extract">Page</option>
-	<option value="/extract/headless">Headless</option>
-	<option value="/feed">Feed</option>
-</select>
-<input type="url" name="url" id="url" value="https://" size="96" maxlength="200" pattern="https?://.*" required title="URL">
-<input type="submit" value="Hit It">
-<!-- <label for="token">Token:</label> -->
-<input type="hidden" name="token" size="101" maxlength="255" value="{{AuthToken}}" placeholder="Enter your access token">
-<input type="hidden" name="pp" value="1">
-</form>
+	<form x-data="formHandler" @submit.prevent="handleSubmit">
+	<label for="url">Enter a URL:</label>
+	<select title="URL Type" x-model="formAction">
+		<option value="/extract">Page</option>
+		<option value="/extract/headless">Headless</option>
+		<option value="/feed">Feed</option>
+	</select>
+	<input type="url" name="url" id="url" value="https://" size="96" maxlength="200" pattern="https?://.*" required title="URL">
+	<input type="submit" value="Hit It">
+	<input type="hidden" name="pp" value="1">
+	</form>
 </div><!-- controls-container -->
+<div class="token-container" x-data="{ isCollapsed: true}">
+	<div class="token-header">
+		<button x-on:click="isCollapsed = !isCollapsed">Enter Token</button>
+	</div>
+	<div x-show="!isCollapsed" class="token-controls" x-transition.scale>
+		<div class="token-entry">
+			<textarea class="token-textarea" id="token" rows="2" placeholder="Enter your access token here">{{AuthToken}}</textarea>
+		</div>
+		<div class="token-info">
+			<input type="checkbox" id="saveToken">
+            <label for="saveToken">Save this token</label>
+		</div>
+	</div>
+</div>
 <div class="response-container">
 	<pre x-ref="responseContent" id="responseContent"></pre>
 </div> 
@@ -77,12 +132,11 @@
 			async handleSubmit(event) {
 				const form = event.target;
 				const headers = new Headers();
-				const token = form.token.value;
+				const token = document.getElementById('token').value;
 				if (token) {
 					headers.append('Authorization', `Bearer ${token}`);
 				}
 				const formData = new FormData(form);
-				formData.delete('token');
 				try { 
 					const response = await fetch(this.formAction, {
 						method: 'POST',
