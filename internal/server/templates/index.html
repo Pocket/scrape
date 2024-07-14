@@ -35,7 +35,22 @@
 			padding: 0.6rem;
 		}
 		.controls-container {
-			background-color: #fff;
+			width: 100%;
+		}
+		.controls-container form {
+			/* background-color: #ccc; */
+			display: flex;
+			flex-direction: column;
+			align-items: stretch;
+		}
+		.form-container {
+			display: flex;
+			align-items: center;
+			gap: 0.3rem;
+		}
+		.controls-container input[type="url"] {
+			flex-grow: 1;
+			/* margin-right: 0.6rem; */
 		}
 		.token-container {
 			display: flex;
@@ -104,14 +119,16 @@
 <div class="controls-container">
 	<form x-data="formHandler" @submit.prevent="handleSubmit">
 	<label for="url">Enter a URL:</label>
-	<select title="URL Type" x-model="formAction">
-		<option value="/extract">Page</option>
-		<option value="/extract/headless">Headless</option>
-		<option value="/feed">Feed</option>
-	</select>
-	<input type="url" name="url" id="url" value="https://" size="96" maxlength="200" pattern="https?://.*" required title="URL">
-	<input type="submit" value="Hit It">
-	<input type="hidden" name="pp" value="1">
+	<div class="form-container">
+		<select title="URL Type" x-model="formAction">
+			<option value="/extract">Page</option>
+			<option value="/extract/headless">Headless</option>
+			<option value="/feed">Feed</option>
+		</select>
+		<input type="url" name="url" id="url" value="https://" maxlength="200" pattern="https?://.*" required title="URL">
+		<input type="submit" value="Hit It">
+		<input type="hidden" name="pp" value="1">
+	</div>	
 	</form>
 </div><!-- controls-container -->
 <div class="token-container" x-data="{ isCollapsed: true}">
