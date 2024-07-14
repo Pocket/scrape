@@ -49,26 +49,33 @@
 		.token-controls {
 			display: flex;
 			justify-content: space-between;
-			/* background-color: #3d997d; */
 		}
 		.token-entry {
 			flex-grow: 1;
 			min-width: 400px;
 			margin-right: 0.6rem;
-			/* border: 1px solid #000; */
-			color: #b9e29c;
 		}
 		.token-textarea {
-			/* border: 0.1rem inset #ccc; */
 			box-sizing: border-box;
 			resize: vertical;
 			width: 100%;
+			height: 100%;
 		}
 		.token-info {
 			white-space: nowrap;
 			display: flex;
+			flex-direction: column;
 			align-items: flex-start;
-			justify-content: flex-start;
+			/* justify-content: flex-start; */
+		}
+		.token-info button {
+			width: 100%;
+			padding: 0.1rem 1.0rem; 
+			cursor: pointer;
+		}
+		.token-info button:first-child {
+			margin-top: 0.1rem;
+			margin-bottom: 0.4rem;
 		}
 		.token-info label {
 			display: block;
@@ -116,8 +123,8 @@
 			<textarea class="token-textarea" id="token" rows="2" placeholder="Enter your access token here">{{AuthToken}}</textarea>
 		</div>
 		<div class="token-info">
-			<input type="checkbox" id="saveToken">
-            <label for="saveToken">Save this token</label>
+			<button class="button">Save Token</button>
+            <button class="button">Clear Token</button>
 		</div>
 	</div>
 </div>
