@@ -173,7 +173,7 @@
 			async handleSubmit(event) {
 				const form = event.target;
 				const headers = new Headers();
-				const token = document.getElementById('token').value;
+				const token = document.getElementById('token')?.value ?? '';
 				if (token) {
 					headers.append('Authorization', `Bearer ${token}`);
 				}
