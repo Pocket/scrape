@@ -65,6 +65,26 @@
 			flex-direction: column;
 			gap: 0.6rem;
 		}
+		.token-header {
+			display: flex;
+			justify-content: start;
+			align-items: center;
+			gap: 0.3rem;
+		}
+		.token-header a {
+			font-size: 1.0rem;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			text-decoration: none;
+			margin-bottom: 1px;
+			line-height: 0.8rem;
+			color: #000000;
+		}
+		.token-toggle {
+			font-size: 1.6rem;
+			font-weight: bold;
+			line-height: 0.8rem;
+			cursor: pointer;
+		}
 		.token-controls {
 			display: flex;
 			justify-content: space-between;
@@ -125,7 +145,11 @@
 <!-- {{if AuthEnabled}}  -->
 <div class="token-container" x-data="tokenHandler()">
 	<div class="token-header">
-		<button x-on:click="isCollapsed = !isCollapsed">Enter Token</button>
+		<span @click="isCollapsed = !isCollapsed" class="token-toggle">
+			<span x-show="isCollapsed">&#x002B;</span>
+            <span x-show="!isCollapsed">&#x2212;</span>
+		</span>
+		<a href="#" class="toggle-link" @click.prevent="isCollapsed = !isCollapsed">Enter Token</a>
 	</div>
 	<div x-show="!isCollapsed" class="token-controls" x-transition.scale>
 		<div class="token-entry">
