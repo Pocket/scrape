@@ -202,6 +202,7 @@
 					const token = document.getElementById('token').value;
 					if (token) {
 						localStorage.setItem('scrapeToken', token);
+						alert('Token saved');
 					}
 				} catch (e) {
 					console.error('Error saving token to local storage', e);
