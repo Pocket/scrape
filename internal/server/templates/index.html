@@ -71,7 +71,6 @@
 		}
 		.token-entry {
 			flex-grow: 1;
-			min-width: 400px;
 			margin-right: 0.6rem;
 		}
 		.token-textarea {
@@ -134,17 +133,17 @@
 	</form>
 </div><!-- controls-container -->
 <!-- {{if AuthEnabled}}  -->
-<div class="token-container" x-data="{ isCollapsed: true}">
+<div class="token-container" x-data="tokenHandler()">
 	<div class="token-header">
 		<button x-on:click="isCollapsed = !isCollapsed">Enter Token</button>
 	</div>
 	<div x-show="!isCollapsed" class="token-controls" x-transition.scale>
 		<div class="token-entry">
-			<textarea class="token-textarea" id="token" rows="2" placeholder="Enter your access token here">{{AuthToken}}</textarea>
+			<textarea x-model="authToken" class="token-textarea" id="token" rows="2" placeholder="Enter your access token here"></textarea>
 		</div>
 		<div class="token-info">
-			<button class="button">Save Token</button>
-            <button class="button">Clear Token</button>
+			<button @click="saveToken()">Save Token</button>
+            <button @click="clearToken()">Clear Token</button>
 		</div>
 	</div>
 </div>
@@ -190,6 +189,28 @@
 				// following should work but doesn't
 				// this.$refs.responseContent.textContent = content;
 			}
+		}
+	}
+</script>
+<script type="text/javascript">
+	function tokenHandler() {
+		return {
+			isCollapsed: true,
+			authToken: localStorage.getItem('scrapeToken') || '{{AuthToken}}',
+			async saveToken() {
+				try {
+					const token = document.getElementById('token').value;
+					if (token) {
+						localStorage.setItem('scrapeToken', token);
+					}
+				} catch (e) {
+					console.error('Error saving token to local storage', e);
+				}
+			},
+			async clearToken() {
+				localStorage.removeItem('scrapeToken');
+				document.getElementById('token').value = '';
+			},
 		}
 	}
 </script>
