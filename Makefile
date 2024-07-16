@@ -1,4 +1,3 @@
-
 MODULE_NAME := scrape
 ifneq ($(shell command -v go >/dev/null 2>&1 && echo yes),)
     MODULE_NAME := $(shell go list -m)
