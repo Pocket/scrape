@@ -171,6 +171,7 @@
     <!-- {{if AuthEnabled}}  -->
     <div class="token-container" x-data="tokenHandler()">
       <div class="token-header">
+        <!-- TODO: Convert <a> to button, link hover color/state of +/- and button -->
         <span @click="isCollapsed = !isCollapsed" class="token-toggle">
           <span x-show="isCollapsed">&#x002B;</span>
           <span x-show="!isCollapsed">&#x2212;</span>
